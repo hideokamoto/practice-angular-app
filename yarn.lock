@@ -2043,6 +2043,13 @@
     "require-from-string" "^2.0.2"
     "uri-js" "^4.2.2"
 
+"angular-in-memory-web-api@^0.14.0":
+  "integrity" "sha512-8RLFBpXZONDQxYGKiheaYQQl3iydesCrhWLuzDD6AsQDcOF+HEvIuOfBdJaTWKfqyNZNWjHvXzIyT0bUIunb/A=="
+  "resolved" "https://registry.npmjs.org/angular-in-memory-web-api/-/angular-in-memory-web-api-0.14.0.tgz"
+  "version" "0.14.0"
+  dependencies:
+    "tslib" "^2.3.0"
+
 "ansi-colors@^4.1.1", "ansi-colors@4.1.1":
   "integrity" "sha512-JoX0apGbHaUJBNl6yF+p6JAFYZ666/hhCGKN5t9QFjbJQKUU/g8MNbFDbvfrgKXvI1QpZplPOnwIo99lX/AAmA=="
   "resolved" "https://registry.npmjs.org/ansi-colors/-/ansi-colors-4.1.1.tgz"
