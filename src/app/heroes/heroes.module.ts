@@ -12,6 +12,8 @@ import { HeroListItemComponent } from './components/hero-list-item/hero-list-ite
 import { HeroListComponent } from './components/hero-list/hero-list.component';
 import { DeleteHeroButtonComponent } from './components/delete-hero-button/delete-hero-button.component';
 import { AddHeroFormComponent } from './components/add-hero-form/add-hero-form.component';
+import { GoBackButtonComponent } from './components/go-back-button/go-back-button.component';
+import { UpdateHeroNameFormComponent } from './components/update-hero-name-form/update-hero-name-form.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { AddHeroFormComponent } from './components/add-hero-form/add-hero-form.c
     HeroListComponent,
     DeleteHeroButtonComponent,
     AddHeroFormComponent,
+    GoBackButtonComponent,
+    UpdateHeroNameFormComponent,
   ],
   imports: [
     CommonModule,
