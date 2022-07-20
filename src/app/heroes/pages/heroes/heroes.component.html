@@ -3,18 +3,6 @@
 <app-hero-list
   *ngIf="heroes$ | async as heroes"
   [heroes]="heroes"
-  (deleteHero)="delete($event)"
 ></app-hero-list>
 
-<div>
-  <label for="new-hero">Hero name:</label>
-  <input id="new-hero" #heroName />
-
-  <button
-    type="button"
-    class="add-button"
-    (click)="add(heroName.value); heroName.value = ''"
-  >
-    Add hero
-  </button>
-</div>
+<app-add-hero-form></app-add-hero-form>

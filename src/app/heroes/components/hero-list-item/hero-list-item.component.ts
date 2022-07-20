@@ -8,10 +8,5 @@ import { Hero } from '../../../hero';
 })
 export class HeroListItemComponent {
   @Input() hero?: Hero;
-  @Output()
-  public deleteHero: EventEmitter<any> = new EventEmitter<any>();
-  public onDeleteClient(hero: Hero) {
-    this.deleteHero.emit(hero);
-  }
   constructor() {}
 }

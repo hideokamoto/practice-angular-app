@@ -45,7 +45,7 @@ export class HeroService {
       return of(result as T);
     };
   }
-  public addHero(hero: Hero): Observable<Hero> {
+  public addHero(hero: Pick<Hero, 'name'>): Observable<Hero> {
     return this.http.post<Hero>(this._heroesUrl, hero, this._httpOptions).pipe(
       tap((newHero: Hero) => this.log(`Added hero /w id=${newHero.id}`)),
       catchError(this._handleError<Hero>('addHero'))

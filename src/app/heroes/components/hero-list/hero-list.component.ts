@@ -8,8 +8,5 @@ import { Hero } from 'src/app/hero';
 })
 export class HeroListComponent {
   @Input() heroes?: Hero[];
-  @Output()
-  public deleteHero: EventEmitter<any> = new EventEmitter<any>();
-
   constructor() {}
 }
