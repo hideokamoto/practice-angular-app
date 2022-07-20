@@ -8,9 +8,18 @@ import { HeroService } from '../shares/hero/hero.service';
 import { HeroDetailComponent } from './pages/hero-detail/hero-detail.component';
 import { HeroesRoutingModule } from './heroes-routing.module';
 import { HeroesComponent } from './pages/heroes/heroes.component';
+import { HeroListItemComponent } from './components/hero-list-item/hero-list-item.component';
+import { HeroListComponent } from './components/hero-list/hero-list.component';
+import { DeleteHeroButtonComponent } from './components/delete-hero-button/delete-hero-button.component';
 
 @NgModule({
-  declarations: [HeroesComponent, HeroDetailComponent],
+  declarations: [
+    HeroesComponent,
+    HeroDetailComponent,
+    HeroListItemComponent,
+    HeroListComponent,
+    DeleteHeroButtonComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,

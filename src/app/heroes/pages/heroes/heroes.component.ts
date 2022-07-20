@@ -9,23 +9,20 @@ import { HeroService } from '../../../shares/hero/hero.service';
 })
 export class HeroesComponent implements OnInit {
   constructor(private heroService: HeroService) {}
-
-  private _getHeros(): void {
-    this.heroService.getHeros().subscribe((heros) => (this.heros = heros));
-  }
-  public heros: Hero[] = [];
+  public heroes$ = this.heroService.heroes$;
+  public heroes: Hero[] = [];
   public add(name: string): void {
     const _name = name.trim();
     if (!_name) return;
     this.heroService.addHero({ name: _name } as Hero).subscribe((hero) => {
-      this.heros.push(hero);
+      this.heroes.push(hero);
     });
   }
   public delete(hero: Hero): void {
-    this.heros = this.heros.filter((h) => h !== hero);
+    this.heroes = this.heroes.filter((h) => h !== hero);
     this.heroService.deleteHero(hero.id).subscribe();
   }
   ngOnInit(): void {
-    this._getHeros();
+    this.heroService.fetchHeroes();
   }
 }

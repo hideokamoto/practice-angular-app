@@ -10,13 +10,12 @@ import { HeroService } from '../../../shares/hero/hero.service';
 export class DashboardComponent implements OnInit {
   public heroes: Hero[] = [];
   constructor(private heroService: HeroService) {}
+  public heroes$ = this.heroService.heroes$;
 
-  private _getHeroes(): void {
-    this.heroService
-      .getHeros()
-      .subscribe((heroes) => (this.heroes = heroes.slice(1, 5)));
-  }
   ngOnInit(): void {
-    this._getHeroes();
+    this.heroService.fetchHeroes({
+      startOf: 0,
+      limit: 5,
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { Hero } from '../../hero';
 import { MessageService } from '../../messages/message.service';
 
@@ -12,6 +12,25 @@ export class HeroService {
   private _httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
+  private _heroesSubject = new BehaviorSubject<Hero[]>([]);
+  get heroes$() {
+    return this._heroesSubject.asObservable();
+  }
+  public fetchHeroes(options?: { startOf: number; limit?: number }): void {
+    this.http
+      .get<Hero[]>(this._heroesUrl)
+      .pipe(
+        tap((heroes) => this.log(`Fetched ${heroes.length} heroes`)),
+        map((heroes) => {
+          if (!options) return heroes;
+          return heroes.slice(options.startOf, options.limit || -1);
+        }),
+        catchError(this._handleError<Hero[]>('getHeroes', []))
+      )
+      .subscribe((heroes) => {
+        this._heroesSubject.next(heroes);
+      });
+  }
   constructor(
     private http: HttpClient,
     private messageService: MessageService
@@ -53,12 +72,6 @@ export class HeroService {
     return this.http.put(this._heroesUrl, hero, this._httpOptions).pipe(
       tap((_) => this.log(`Updatd hero id=${hero.id}`)),
       catchError(this._handleError<any>('updateHero'))
-    );
-  }
-  public getHeros(): Observable<Hero[]> {
-    return this.http.get<Hero[]>(this._heroesUrl).pipe(
-      tap((heroes) => this.log('Fetched heroes')),
-      catchError(this._handleError<Hero[]>('getHeroes', []))
     );
   }
   public getHero(id: number): Observable<Hero | undefined> {

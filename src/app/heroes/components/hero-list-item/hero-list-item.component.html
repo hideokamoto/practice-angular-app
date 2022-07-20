@@ -1,0 +1,6 @@
+<ng-container *ngIf="hero">
+  <a routerLink="/heroes/{{ hero.id }}">
+    <span class="badge">{{ hero.id }}</span> {{ hero.name }}
+  </a>
+  <app-delete-hero-button [hero]="hero"></app-delete-hero-button>
+</ng-container>
