@@ -25,12 +25,29 @@ export class HeroService {
           if (!options) return heroes;
           return heroes.slice(options.startOf, options.limit || -1);
         }),
-        catchError(this._handleError<Hero[]>('getHeroes', []))
+        catchError(this._handleError<Hero[]>('fetchHeroes', []))
       )
       .subscribe((heroes) => {
         this._heroesSubject.next(heroes);
       });
   }
+
+  private _heroSubject = new BehaviorSubject<Hero | null>(null);
+  get hero$() {
+    return this._heroSubject.asObservable();
+  }
+  public fetchHero(id: number): void {
+    this.http
+      .get<Hero>(`${this._heroesUrl}/${id}`)
+      .pipe(
+        tap((hero) => this.log(`Fetched hero id=${id}`)),
+        catchError(this._handleError<Hero | null>('fetchHero', null))
+      )
+      .subscribe((hero) => {
+        this._heroSubject.next(hero);
+      });
+  }
+
   constructor(
     private http: HttpClient,
     private messageService: MessageService
