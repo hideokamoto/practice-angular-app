@@ -5,9 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '../in-memory-data.service';
 import { HeroService } from '../shares/hero/hero.service';
-import { HeroDetailComponent } from './hero-detail/hero-detail.component';
+import { HeroDetailComponent } from './pages/hero-detail/hero-detail.component';
 import { HeroesRoutingModule } from './heroes-routing.module';
-import { HeroesComponent } from './heroes/heroes.component';
+import { HeroesComponent } from './pages/heroes/heroes.component';
 
 @NgModule({
   declarations: [HeroesComponent, HeroDetailComponent],

@@ -5,8 +5,8 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '../in-memory-data.service';
 import { HeroService } from '../shares/hero/hero.service';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HeroSearchComponent } from './hero-search/hero-search.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { HeroSearchComponent } from './components/hero-search/hero-search.component';
 
 @NgModule({
   declarations: [DashboardComponent, HeroSearchComponent],
