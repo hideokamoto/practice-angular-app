@@ -5,9 +5,7 @@ const routes: Routes = [
   {
     path: 'heroes',
     loadChildren: () =>
-      import('./heroes/heroes-routing.module').then(
-        (m) => m.HeroesRoutingModule
-      ),
+      import('./heroes/heroes.module').then((m) => m.HeroesModule),
   },
   {
     path: '',
