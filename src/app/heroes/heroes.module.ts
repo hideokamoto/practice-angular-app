@@ -8,7 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { HeroesRoutingModule } from './heroes-routing.module';
-import { HeroService } from './heroes/hero.service';
+import { HeroService } from '../shares/hero/hero.service';
 import { HeroesComponent } from './heroes/heroes.component';
 
 @NgModule({
