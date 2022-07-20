@@ -6,8 +6,8 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
-import { Hero } from '../hero';
-import { HeroService } from '../heroes.bk/hero.service';
+import { Hero } from '../../hero';
+import { HeroService } from '../../heroes/heroes/hero.service';
 
 @Component({
   selector: 'app-hero-search',
