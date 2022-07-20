@@ -37,15 +37,22 @@ export class HeroService {
     return this._heroSubject.asObservable();
   }
   public fetchHero(id: number): void {
-    this.http
-      .get<Hero>(`${this._heroesUrl}/${id}`)
-      .pipe(
-        tap((hero) => this.log(`Fetched hero id=${id}`)),
-        catchError(this._handleError<Hero | null>('fetchHero', null))
-      )
-      .subscribe((hero) => {
-        this._heroSubject.next(hero);
-      });
+    this._heroesSubject.asObservable().subscribe((heroes) => {
+      if (heroes.length < 1) {
+        this.http
+          .get<Hero>(`${this._heroesUrl}/${id}`)
+          .pipe(
+            tap((_) => this.log(`Fetched hero id=${id}`)),
+            catchError(this._handleError<Hero | null>('fetchHero', null))
+          )
+          .subscribe((hero) => {
+            this._heroSubject.next(hero);
+          });
+        return;
+      }
+      const hero = heroes.find((h) => h.id === id);
+      if (hero) this._heroSubject.next(hero);
+    });
   }
 
   constructor(
@@ -89,13 +96,6 @@ export class HeroService {
     return this.http.put(this._heroesUrl, hero, this._httpOptions).pipe(
       tap((_) => this.log(`Updatd hero id=${hero.id}`)),
       catchError(this._handleError<any>('updateHero'))
-    );
-  }
-  public getHero(id: number): Observable<Hero | undefined> {
-    const url = `${this._heroesUrl}/${id}`;
-    return this.http.get<Hero>(url).pipe(
-      tap((_) => this.log(`Fetched hero id=${id}`)),
-      catchError(this._handleError<Hero>(`getHero ${id}`))
     );
   }
 }
