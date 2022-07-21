@@ -18,32 +18,8 @@ export class HeroService {
   private _httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
-  get heroes$() {
-    return this.store.select((state) => state.heroList.items);
-  }
   get hero$() {
     return this.store.select((state) => state.heroDetail.data);
-  }
-  public fetchHeroes(options?: { startOf: number; limit?: number }): void {
-    this.http
-      .get<Hero[]>(this._heroesUrl)
-      .pipe(
-        tap((heroes) => this.log(`Fetched ${heroes.length} heroes`)),
-        map((heroes) => {
-          if (!options) return heroes;
-          return heroes.slice(options.startOf, options.limit || -1);
-        }),
-        catchError(this._handleError<Hero[]>('fetchHeroes', []))
-      )
-      .subscribe((heroes) => {
-        this.store.update((state) => ({
-          ...state,
-          heroList: {
-            ...state.heroList,
-            items: heroes,
-          },
-        }));
-      });
   }
 
   private _heroSubject = new BehaviorSubject<Hero | null>(null);

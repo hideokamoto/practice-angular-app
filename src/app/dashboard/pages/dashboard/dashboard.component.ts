@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HeroListUsecase } from 'src/app/shares/hero/hero-list.usecase';
 import { Hero } from '../../../hero';
-import { HeroService } from '../../../shares/hero/hero.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +9,7 @@ import { HeroService } from '../../../shares/hero/hero.service';
 })
 export class DashboardComponent implements OnInit {
   public heroes: Hero[] = [];
-  constructor(private heroService: HeroService) {}
+  constructor(private heroService: HeroListUsecase) {}
   public heroes$ = this.heroService.heroes$;
 
   ngOnInit(): void {

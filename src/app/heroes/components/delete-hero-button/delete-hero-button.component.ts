@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Hero } from 'src/app/hero';
+import { HeroListUsecase } from 'src/app/shares/hero/hero-list.usecase';
 import { HeroService } from 'src/app/shares/hero/hero.service';
 
 @Component({
@@ -9,9 +10,12 @@ import { HeroService } from 'src/app/shares/hero/hero.service';
 })
 export class DeleteHeroButtonComponent {
   @Input() hero?: Hero;
-  constructor(private heroService: HeroService) {}
+  constructor(
+    private heroService: HeroService,
+    private heroListUsecase: HeroListUsecase
+  ) {}
   public delete(hero: Hero): void {
     this.heroService.deleteHero(hero.id).subscribe();
-    this.heroService.fetchHeroes();
+    this.heroListUsecase.fetchHeroes();
   }
 }

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '../in-memory-data.service';
 import { HeroService } from '../shares/hero/hero.service';
@@ -14,6 +14,8 @@ import { DeleteHeroButtonComponent } from './components/delete-hero-button/delet
 import { AddHeroFormComponent } from './components/add-hero-form/add-hero-form.component';
 import { GoBackButtonComponent } from './components/go-back-button/go-back-button.component';
 import { UpdateHeroNameFormComponent } from './components/update-hero-name-form/update-hero-name-form.component';
+import { HeroNameFilterComponent } from './components/hero-name-filter/hero-name-filter.component';
+import { HeroListUsecase } from '../shares/hero/hero-list.usecase';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { UpdateHeroNameFormComponent } from './components/update-hero-name-form/
     AddHeroFormComponent,
     GoBackButtonComponent,
     UpdateHeroNameFormComponent,
+    HeroNameFilterComponent,
   ],
   imports: [
     CommonModule,
@@ -34,8 +37,9 @@ import { UpdateHeroNameFormComponent } from './components/update-hero-name-form/
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),
+    ReactiveFormsModule,
   ],
   exports: [HeroesComponent, HeroDetailComponent],
-  providers: [HeroService],
+  providers: [HeroService, HeroListUsecase],
 })
 export class HeroesModule {}
