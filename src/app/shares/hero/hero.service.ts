@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
+import { Store } from '../stores/store.service';
 import { Hero } from '../../hero';
 import { MessageService } from '../../messages/message.service';
 
@@ -8,13 +9,20 @@ import { MessageService } from '../../messages/message.service';
   providedIn: 'root',
 })
 export class HeroService {
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService,
+    private store: Store
+  ) {}
   private _heroesUrl = 'api/heroes';
   private _httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
-  private _heroesSubject = new BehaviorSubject<Hero[]>([]);
   get heroes$() {
-    return this._heroesSubject.asObservable();
+    return this.store.select((state) => state.heroList.items);
+  }
+  get hero$() {
+    return this.store.select((state) => state.heroDetail.data);
   }
   public fetchHeroes(options?: { startOf: number; limit?: number }): void {
     this.http
@@ -28,37 +36,52 @@ export class HeroService {
         catchError(this._handleError<Hero[]>('fetchHeroes', []))
       )
       .subscribe((heroes) => {
-        this._heroesSubject.next(heroes);
+        this.store.update((state) => ({
+          ...state,
+          heroList: {
+            ...state.heroList,
+            items: heroes,
+          },
+        }));
       });
   }
 
   private _heroSubject = new BehaviorSubject<Hero | null>(null);
-  get hero$() {
-    return this._heroSubject.asObservable();
-  }
   public fetchHero(id: number): void {
-    this._heroesSubject.asObservable().subscribe((heroes) => {
-      if (heroes.length < 1) {
-        this.http
-          .get<Hero>(`${this._heroesUrl}/${id}`)
-          .pipe(
-            tap((_) => this.log(`Fetched hero id=${id}`)),
-            catchError(this._handleError<Hero | null>('fetchHero', null))
-          )
-          .subscribe((hero) => {
-            this._heroSubject.next(hero);
-          });
-        return;
-      }
-      const hero = heroes.find((h) => h.id === id);
-      if (hero) this._heroSubject.next(hero);
-    });
+    this.store
+      .select((state) => state.heroList.items)
+      .subscribe((heroes) => {
+        if (heroes.length < 1) {
+          this.http
+            .get<Hero>(`${this._heroesUrl}/${id}`)
+            .pipe(
+              tap((_) => this.log(`Fetched hero id=${id}`)),
+              catchError(this._handleError<Hero | null>('fetchHero', null))
+            )
+            .subscribe((hero) => {
+              this.store.update((state) => ({
+                ...state,
+                heroDetail: {
+                  ...state.heroDetail,
+                  data: hero,
+                },
+              }));
+            });
+          return;
+        }
+        const hero = heroes.find((h) => h.id === id);
+        if (hero) {
+          this.store.update((state) => ({
+            ...state,
+            heroDetail: {
+              ...state.heroDetail,
+              data: hero,
+            },
+          }));
+        }
+      });
   }
 
-  constructor(
-    private http: HttpClient,
-    private messageService: MessageService
-  ) {}
   private log(message: string): void {
     this.messageService.add(`HeroService: ${message}`);
   }
